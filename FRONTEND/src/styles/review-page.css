@@ -368,27 +368,37 @@
     font-size: 11px;
   }
   
-  .code-placeholder {
+  .code-editor {
+    position: relative;
     flex: 1;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    gap: 8px;
-  
-    color:
-      var(--text-secondary);
-  
-    background:
-      #0a111c;
+    min-height: 350px;
+    overflow: hidden;
   }
-  
-  .code-placeholder span {
-    color:
-      #6366f1;
-  
-    font-size: 26px;
+
+  .code-editor > section {
+    position: absolute;
+    inset: 0;
+  }
+
+  .input-error {
+    margin: 0;
+    color: var(--danger);
+    font-size: 13px;
+  }
+
+  .code-panel .panel-title {
+    min-width: 0;
+  }
+
+  .code-panel .panel-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .code-panel .panel-status,
+  .code-panel .panel-title svg {
+    flex-shrink: 0;
   }
   
   .code-footer {

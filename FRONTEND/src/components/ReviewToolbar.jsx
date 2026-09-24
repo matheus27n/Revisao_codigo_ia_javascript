@@ -1,16 +1,20 @@
+import { useRef } from "react";
 import {
     Clipboard,
     CloudUpload,
     Sparkles,
   } from "lucide-react";
   
-  function ReviewToolbar() {
+  function ReviewToolbar({ environment, onEnvironmentChange, mode, onModeChange, onPaste, onUpload, onAnalyze }) {
+    const fileInputRef = useRef(null);
+
     return (
       <section className="review-toolbar">
         <div className="toolbar-actions">
           <button
             className="secondary-button"
             type="button"
+            onClick={onPaste}
           >
             <Clipboard size={17} />
             Colar código
@@ -19,17 +23,29 @@ import {
           <button
             className="secondary-button"
             type="button"
+            onClick={() => fileInputRef.current?.click()}
           >
             <CloudUpload size={17} />
             Upload de arquivo
           </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".js,.jsx,.mjs,.cjs"
+            hidden
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              event.target.value = "";
+              onUpload(file);
+            }}
+          />
         </div>
   
         <div className="toolbar-config">
           <label className="field">
             <span>Ambiente</span>
   
-            <select defaultValue="node">
+            <select value={environment} onChange={(event) => onEnvironmentChange(event.target.value)}>
               <option value="node">
                 Node.js
               </option>
@@ -43,7 +59,7 @@ import {
           <label className="field">
             <span>Modo</span>
   
-            <select defaultValue="hybrid">
+            <select value={mode} onChange={(event) => onModeChange(event.target.value)}>
               <option value="static">
                 C1 — Estático
               </option>
@@ -61,6 +77,7 @@ import {
           <button
             className="primary-button"
             type="button"
+            onClick={onAnalyze}
           >
             <Sparkles size={18} />
             Analisar Código
