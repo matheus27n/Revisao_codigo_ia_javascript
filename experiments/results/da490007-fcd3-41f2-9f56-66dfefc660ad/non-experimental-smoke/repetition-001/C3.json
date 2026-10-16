@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "1.0",
+  "experiment": {
+    "experimentId": "da490007-fcd3-41f2-9f56-66dfefc660ad",
+    "caseId": "non-experimental-smoke",
+    "scenario": "C3",
+    "mode": "hybrid",
+    "repetition": 1,
+    "kind": "non_experimental_smoke",
+    "nonExperimental": true
+  },
+  "input": {
+    "code": "const executar = () => new Promise(async (resolve) => {\n  resolve(true);\n});\n\nexecutar();\n",
+    "filename": "promiseService.js",
+    "environment": "node",
+    "codeSha256": "46e01d6508daf0d5417ab36fd422373f35835189aa6414ec7ed3e6b0e149eb8b"
+  },
+  "runtime": {
+    "nodeVersion": "v24.22.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "gitCommit": "c5555ac8896cab7b9fb138314306d936f8f37dbd",
+    "gitDirty": true
+  },
+  "status": "succeeded",
+  "execution": {
+    "startedAt": "2026-10-16T04:56:16.067Z",
+    "finishedAt": "2026-10-16T04:56:18.811Z",
+    "durationMs": 2743.8284000000003
+  },
+  "http": {
+    "status": 200
+  },
+  "response": {
+    "scenario": "C3",
+    "mode": "hybrid",
+    "environment": "node",
+    "filename": "promiseService.js",
+    "analysis": {
+      "errorCount": 1,
+      "warningCount": 0,
+      "alerts": [
+        {
+          "source": "eslint",
+          "ruleId": "no-async-promise-executor",
+          "category": {
+            "id": "error_handling",
+            "label": "Tratamento de erros e fluxos assíncronos"
+          },
+          "environment": "node",
+          "message": "Promise executor functions should not be async.",
+          "line": 1,
+          "column": 36,
+          "endLine": 1,
+          "endColumn": 41,
+          "severity": "error",
+          "contexts": [
+            {
+              "documentId": "eslint-no-async-promise-executor",
+              "documentPath": "eslint/no-async-promise-executor.json",
+              "technology": "eslint",
+              "ruleId": "no-async-promise-executor",
+              "category": {
+                "id": "error_handling",
+                "label": "Tratamento de erros e fluxos assíncronos"
+              },
+              "title": "Executor assíncrono em Promise",
+              "summary": "Identifica o uso de uma função async como executor do construtor Promise.",
+              "technicalReason": "O uso de async diretamente no executor de uma Promise pode dificultar o tratamento de erros. Exceções lançadas durante a execução assíncrona podem não produzir o comportamento esperado na Promise criada, e a presença de await dentro do executor pode indicar que o construtor Promise é desnecessário.",
+              "recommendation": "Evitar funções async diretamente no executor de new Promise. Sempre que possível, utilizar Promises já existentes, composição de operações assíncronas ou async/await em uma função externa ao construtor.",
+              "severitySuggestion": "high",
+              "content": "A regra no-async-promise-executor impede que uma função async seja utilizada diretamente como executor de new Promise. Esse padrão pode tornar o tratamento de erros menos previsível e dificultar a depuração. A utilização de await dentro do executor também pode indicar que não há necessidade de criar uma nova Promise manualmente. Recomenda-se utilizar composição de Promises ou async/await fora do construtor.",
+              "source": {
+                "provider": "ESLint",
+                "document": "no-async-promise-executor",
+                "official": true,
+                "retrievedAt": "2026-09-11",
+                "sourceLanguage": "en"
+              },
+              "score": 100,
+              "retrievalReason": "exact_rule_match"
+            },
+            {
+              "documentId": "node-error-handling",
+              "documentPath": "node/error-handling.json",
+              "technology": "node",
+              "ruleId": null,
+              "category": {
+                "id": "error_handling",
+                "label": "Tratamento de erros e fluxos assíncronos"
+              },
+              "title": "Propagação e tratamento de erros em Node.js",
+              "summary": "Apresenta princípios gerais para propagação e tratamento de erros em aplicações Node.js.",
+              "technicalReason": "Em Node.js, a forma como um erro é propagado depende do tipo de operação e da API utilizada. Exceções JavaScript podem ser tratadas com try/catch, enquanto operações assíncronas podem representar falhas por rejeição de Promises ou outros mecanismos definidos pelas APIs.",
+              "recommendation": "Tratar erros no nível adequado da aplicação e evitar ocultar falhas. Em código baseado em async/await, utilizar try/catch quando for necessário interceptar uma rejeição. Quando o erro não puder ser resolvido localmente, propagá-lo para uma camada responsável pelo tratamento.",
+              "severitySuggestion": null,
+              "content": "Node.js possui diferentes mecanismos de propagação e tratamento de erros conforme o tipo de API utilizada. Exceções JavaScript utilizam o mecanismo throw e podem ser interceptadas com try/catch. Operações assíncronas também podem representar falhas por rejeição de Promises. O tratamento deve preservar informações relevantes sobre a falha e evitar que erros sejam silenciosamente ignorados.",
+              "source": {
+                "provider": "Node.js",
+                "document": "Errors — Error propagation and interception",
+                "official": true,
+                "retrievedAt": "2026-09-11",
+                "sourceLanguage": "en"
+              },
+              "score": 70,
+              "retrievalReason": "category_environment_match"
+            },
+            {
+              "documentId": "shared-promises-async-await",
+              "documentPath": "shared/promises-async-await.json",
+              "technology": "javascript",
+              "ruleId": null,
+              "category": {
+                "id": "error_handling",
+                "label": "Tratamento de erros e fluxos assíncronos"
+              },
+              "title": "Promises e async/await em JavaScript",
+              "summary": "Descreve o funcionamento geral de funções assíncronas, Promises e tratamento de rejeições em JavaScript.",
+              "technicalReason": "Funções declaradas com async sempre retornam uma Promise. Quando uma exceção não é tratada dentro da função assíncrona, a Promise retornada é rejeitada. O uso de await permite consumir operações baseadas em Promise e utilizar estruturas convencionais de try/catch para tratar falhas.",
+              "recommendation": "Utilizar async/await de forma consistente, tratar rejeições quando necessário e evitar fluxos em que Promises possam ser rejeitadas sem tratamento. Para operações concorrentes relacionadas, avaliar mecanismos como Promise.all ou Promise.allSettled conforme a semântica desejada.",
+              "severitySuggestion": null,
+              "content": "Funções async sempre retornam uma Promise. Uma exceção não tratada dentro de uma função async provoca a rejeição da Promise retornada. O operador await suspende a execução da função até que a Promise correspondente seja concluída e permite utilizar estruturas try/catch ao redor de operações assíncronas. Rejeições devem ser tratadas ou propagadas de forma deliberada para evitar falhas não observadas.",
+              "source": {
+                "provider": "MDN Web Docs",
+                "document": "async function and Promise",
+                "official": true,
+                "retrievedAt": "2026-09-11",
+                "sourceLanguage": "en"
+              },
+              "score": 70,
+              "retrievalReason": "category_environment_match"
+            }
+          ]
+        }
+      ]
+    },
+    "retrieval": {
+      "maxContextsPerAlert": 3,
+      "alertCount": 1,
+      "alertsWithContext": 1,
+      "totalContexts": 3
+    },
+    "prompt": {
+      "version": "1.0",
+      "metadata": {
+        "filename": "promiseService.js",
+        "environment": "node",
+        "alertCount": 1,
+        "knowledgeDocumentCount": 3,
+        "promptVersion": "1.0"
+      }
+    },
+    "generation": {
+      "provider": "ollama",
+      "model": "llama3.2:3b",
+      "status": "completed",
+      "stopReason": "stop",
+      "outputText": "{\n  \"reviews\": [\n    {\n      \"alertId\": \"alert-1\",\n      \"ruleId\": \"no-async-promise-executor\",\n      \"category\": {\n        \"id\": \"error_handling\",\n        \"label\": \"Tratamento de erros e fluxos assíncronos\"\n      },\n      \"description\": \"A regra no-async-promise-executor impede que uma função async seja utilizada diretamente como executor de new Promise.\",\n      \"justification\": \"Esse padrão pode tornar o tratamento de erros menos previsível e dificultar a depuração.\",\n      \"suggestion\": \"Recomenda-se utilizar composição de Promises ou async/await fora do construtor.\",\n      \"criticality\": \"high\",\n      \"line\": 1,\n      \"references\": [\n        \"eslint-no-async-promise-executor\",\n        \"node-error-handling\",\n        \"shared-promises-async-await\"\n      ]\n    }\n  ]\n}",
+      "usage": {
+        "inputTokens": 1786,
+        "outputTokens": 211,
+        "totalTokens": 1997
+      },
+      "performance": {
+        "totalDurationNs": 2730855800,
+        "loadDurationNs": 7629800,
+        "promptEvalDurationNs": 351430000,
+        "evalDurationNs": 2298739000
+      },
+      "durationMs": 2733,
+      "generatedAt": "2026-10-16T04:56:18.8061258Z"
+    },
+    "validation": {
+      "valid": true,
+      "stage": "validated",
+      "data": {
+        "reviews": [
+          {
+            "alertId": "alert-1",
+            "ruleId": "no-async-promise-executor",
+            "category": {
+              "id": "error_handling",
+              "label": "Tratamento de erros e fluxos assíncronos"
+            },
+            "description": "A regra no-async-promise-executor impede que uma função async seja utilizada diretamente como executor de new Promise.",
+            "justification": "Esse padrão pode tornar o tratamento de erros menos previsível e dificultar a depuração.",
+            "suggestion": "Recomenda-se utilizar composição de Promises ou async/await fora do construtor.",
+            "criticality": "high",
+            "line": 1,
+            "references": [
+              "eslint-no-async-promise-executor",
+              "node-error-handling",
+              "shared-promises-async-await"
+            ]
+          }
+        ]
+      },
+      "errors": []
+    }
+  },
+  "responseText": "{\"scenario\":\"C3\",\"mode\":\"hybrid\",\"environment\":\"node\",\"filename\":\"promiseService.js\",\"analysis\":{\"errorCount\":1,\"warningCount\":0,\"alerts\":[{\"source\":\"eslint\",\"ruleId\":\"no-async-promise-executor\",\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"environment\":\"node\",\"message\":\"Promise executor functions should not be async.\",\"line\":1,\"column\":36,\"endLine\":1,\"endColumn\":41,\"severity\":\"error\",\"contexts\":[{\"documentId\":\"eslint-no-async-promise-executor\",\"documentPath\":\"eslint/no-async-promise-executor.json\",\"technology\":\"eslint\",\"ruleId\":\"no-async-promise-executor\",\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"title\":\"Executor assíncrono em Promise\",\"summary\":\"Identifica o uso de uma função async como executor do construtor Promise.\",\"technicalReason\":\"O uso de async diretamente no executor de uma Promise pode dificultar o tratamento de erros. Exceções lançadas durante a execução assíncrona podem não produzir o comportamento esperado na Promise criada, e a presença de await dentro do executor pode indicar que o construtor Promise é desnecessário.\",\"recommendation\":\"Evitar funções async diretamente no executor de new Promise. Sempre que possível, utilizar Promises já existentes, composição de operações assíncronas ou async/await em uma função externa ao construtor.\",\"severitySuggestion\":\"high\",\"content\":\"A regra no-async-promise-executor impede que uma função async seja utilizada diretamente como executor de new Promise. Esse padrão pode tornar o tratamento de erros menos previsível e dificultar a depuração. A utilização de await dentro do executor também pode indicar que não há necessidade de criar uma nova Promise manualmente. Recomenda-se utilizar composição de Promises ou async/await fora do construtor.\",\"source\":{\"provider\":\"ESLint\",\"document\":\"no-async-promise-executor\",\"official\":true,\"retrievedAt\":\"2026-09-11\",\"sourceLanguage\":\"en\"},\"score\":100,\"retrievalReason\":\"exact_rule_match\"},{\"documentId\":\"node-error-handling\",\"documentPath\":\"node/error-handling.json\",\"technology\":\"node\",\"ruleId\":null,\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"title\":\"Propagação e tratamento de erros em Node.js\",\"summary\":\"Apresenta princípios gerais para propagação e tratamento de erros em aplicações Node.js.\",\"technicalReason\":\"Em Node.js, a forma como um erro é propagado depende do tipo de operação e da API utilizada. Exceções JavaScript podem ser tratadas com try/catch, enquanto operações assíncronas podem representar falhas por rejeição de Promises ou outros mecanismos definidos pelas APIs.\",\"recommendation\":\"Tratar erros no nível adequado da aplicação e evitar ocultar falhas. Em código baseado em async/await, utilizar try/catch quando for necessário interceptar uma rejeição. Quando o erro não puder ser resolvido localmente, propagá-lo para uma camada responsável pelo tratamento.\",\"severitySuggestion\":null,\"content\":\"Node.js possui diferentes mecanismos de propagação e tratamento de erros conforme o tipo de API utilizada. Exceções JavaScript utilizam o mecanismo throw e podem ser interceptadas com try/catch. Operações assíncronas também podem representar falhas por rejeição de Promises. O tratamento deve preservar informações relevantes sobre a falha e evitar que erros sejam silenciosamente ignorados.\",\"source\":{\"provider\":\"Node.js\",\"document\":\"Errors — Error propagation and interception\",\"official\":true,\"retrievedAt\":\"2026-09-11\",\"sourceLanguage\":\"en\"},\"score\":70,\"retrievalReason\":\"category_environment_match\"},{\"documentId\":\"shared-promises-async-await\",\"documentPath\":\"shared/promises-async-await.json\",\"technology\":\"javascript\",\"ruleId\":null,\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"title\":\"Promises e async/await em JavaScript\",\"summary\":\"Descreve o funcionamento geral de funções assíncronas, Promises e tratamento de rejeições em JavaScript.\",\"technicalReason\":\"Funções declaradas com async sempre retornam uma Promise. Quando uma exceção não é tratada dentro da função assíncrona, a Promise retornada é rejeitada. O uso de await permite consumir operações baseadas em Promise e utilizar estruturas convencionais de try/catch para tratar falhas.\",\"recommendation\":\"Utilizar async/await de forma consistente, tratar rejeições quando necessário e evitar fluxos em que Promises possam ser rejeitadas sem tratamento. Para operações concorrentes relacionadas, avaliar mecanismos como Promise.all ou Promise.allSettled conforme a semântica desejada.\",\"severitySuggestion\":null,\"content\":\"Funções async sempre retornam uma Promise. Uma exceção não tratada dentro de uma função async provoca a rejeição da Promise retornada. O operador await suspende a execução da função até que a Promise correspondente seja concluída e permite utilizar estruturas try/catch ao redor de operações assíncronas. Rejeições devem ser tratadas ou propagadas de forma deliberada para evitar falhas não observadas.\",\"source\":{\"provider\":\"MDN Web Docs\",\"document\":\"async function and Promise\",\"official\":true,\"retrievedAt\":\"2026-09-11\",\"sourceLanguage\":\"en\"},\"score\":70,\"retrievalReason\":\"category_environment_match\"}]}]},\"retrieval\":{\"maxContextsPerAlert\":3,\"alertCount\":1,\"alertsWithContext\":1,\"totalContexts\":3},\"prompt\":{\"version\":\"1.0\",\"metadata\":{\"filename\":\"promiseService.js\",\"environment\":\"node\",\"alertCount\":1,\"knowledgeDocumentCount\":3,\"promptVersion\":\"1.0\"}},\"generation\":{\"provider\":\"ollama\",\"model\":\"llama3.2:3b\",\"status\":\"completed\",\"stopReason\":\"stop\",\"outputText\":\"{\\n  \\\"reviews\\\": [\\n    {\\n      \\\"alertId\\\": \\\"alert-1\\\",\\n      \\\"ruleId\\\": \\\"no-async-promise-executor\\\",\\n      \\\"category\\\": {\\n        \\\"id\\\": \\\"error_handling\\\",\\n        \\\"label\\\": \\\"Tratamento de erros e fluxos assíncronos\\\"\\n      },\\n      \\\"description\\\": \\\"A regra no-async-promise-executor impede que uma função async seja utilizada diretamente como executor de new Promise.\\\",\\n      \\\"justification\\\": \\\"Esse padrão pode tornar o tratamento de erros menos previsível e dificultar a depuração.\\\",\\n      \\\"suggestion\\\": \\\"Recomenda-se utilizar composição de Promises ou async/await fora do construtor.\\\",\\n      \\\"criticality\\\": \\\"high\\\",\\n      \\\"line\\\": 1,\\n      \\\"references\\\": [\\n        \\\"eslint-no-async-promise-executor\\\",\\n        \\\"node-error-handling\\\",\\n        \\\"shared-promises-async-await\\\"\\n      ]\\n    }\\n  ]\\n}\",\"usage\":{\"inputTokens\":1786,\"outputTokens\":211,\"totalTokens\":1997},\"performance\":{\"totalDurationNs\":2730855800,\"loadDurationNs\":7629800,\"promptEvalDurationNs\":351430000,\"evalDurationNs\":2298739000},\"durationMs\":2733,\"generatedAt\":\"2026-10-16T04:56:18.8061258Z\"},\"validation\":{\"valid\":true,\"stage\":\"validated\",\"data\":{\"reviews\":[{\"alertId\":\"alert-1\",\"ruleId\":\"no-async-promise-executor\",\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"description\":\"A regra no-async-promise-executor impede que uma função async seja utilizada diretamente como executor de new Promise.\",\"justification\":\"Esse padrão pode tornar o tratamento de erros menos previsível e dificultar a depuração.\",\"suggestion\":\"Recomenda-se utilizar composição de Promises ou async/await fora do construtor.\",\"criticality\":\"high\",\"line\":1,\"references\":[\"eslint-no-async-promise-executor\",\"node-error-handling\",\"shared-promises-async-await\"]}]},\"errors\":[]}}",
+  "llm": {
+    "provider": "ollama",
+    "model": "llama3.2:3b",
+    "temperature": null,
+    "seed": null,
+    "source": "provider/model: response.generation; temperature/seed: not_exposed_by_api"
+  }
+}

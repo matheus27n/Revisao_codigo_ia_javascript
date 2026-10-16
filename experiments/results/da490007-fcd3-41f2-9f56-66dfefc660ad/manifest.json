@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "da490007-fcd3-41f2-9f56-66dfefc660ad",
+  "createdAt": "2026-10-16T04:56:04.957Z",
+  "kind": "non_experimental_smoke",
+  "nonExperimental": true,
+  "cases": [
+    {
+      "schemaVersion": "1.0",
+      "id": "non-experimental-smoke",
+      "title": "Verificação técnica do runner — não integra a amostra do TCC",
+      "kind": "non_experimental_smoke",
+      "environment": "node",
+      "filename": "promiseService.js",
+      "sourceFile": "sources/non-experimental-smoke.js",
+      "tags": [
+        "smoke",
+        "non_experimental"
+      ],
+      "codeSha256": "46e01d6508daf0d5417ab36fd422373f35835189aa6414ec7ed3e6b0e149eb8b"
+    }
+  ],
+  "scenarios": [
+    "C1",
+    "C2",
+    "C3"
+  ],
+  "repetitions": 1,
+  "timeoutMs": 600000,
+  "runtime": {
+    "nodeVersion": "v24.22.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "gitCommit": "c5555ac8896cab7b9fb138314306d936f8f37dbd",
+    "gitDirty": true
+  },
+  "status": "completed",
+  "executions": [
+    {
+      "caseId": "non-experimental-smoke",
+      "scenario": "C1",
+      "mode": "static",
+      "repetition": 1,
+      "status": "succeeded",
+      "httpStatus": 200,
+      "path": "non-experimental-smoke/repetition-001/C1.json"
+    },
+    {
+      "caseId": "non-experimental-smoke",
+      "scenario": "C2",
+      "mode": "llm",
+      "repetition": 1,
+      "status": "succeeded",
+      "httpStatus": 200,
+      "path": "non-experimental-smoke/repetition-001/C2.json"
+    },
+    {
+      "caseId": "non-experimental-smoke",
+      "scenario": "C3",
+      "mode": "hybrid",
+      "repetition": 1,
+      "status": "succeeded",
+      "httpStatus": 200,
+      "path": "non-experimental-smoke/repetition-001/C3.json"
+    }
+  ],
+  "finishedAt": "2026-10-16T04:56:18.813Z"
+}

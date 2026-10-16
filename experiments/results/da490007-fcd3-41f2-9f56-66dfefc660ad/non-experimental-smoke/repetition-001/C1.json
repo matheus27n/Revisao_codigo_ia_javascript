@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0",
+  "experiment": {
+    "experimentId": "da490007-fcd3-41f2-9f56-66dfefc660ad",
+    "caseId": "non-experimental-smoke",
+    "scenario": "C1",
+    "mode": "static",
+    "repetition": 1,
+    "kind": "non_experimental_smoke",
+    "nonExperimental": true
+  },
+  "input": {
+    "code": "const executar = () => new Promise(async (resolve) => {\n  resolve(true);\n});\n\nexecutar();\n",
+    "filename": "promiseService.js",
+    "environment": "node",
+    "codeSha256": "46e01d6508daf0d5417ab36fd422373f35835189aa6414ec7ed3e6b0e149eb8b"
+  },
+  "runtime": {
+    "nodeVersion": "v24.22.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "gitCommit": "c5555ac8896cab7b9fb138314306d936f8f37dbd",
+    "gitDirty": true
+  },
+  "status": "succeeded",
+  "execution": {
+    "startedAt": "2026-10-16T04:56:04.959Z",
+    "finishedAt": "2026-10-16T04:56:05.512Z",
+    "durationMs": 552.4161999999999
+  },
+  "http": {
+    "status": 200
+  },
+  "response": {
+    "scenario": "C1",
+    "mode": "static",
+    "environment": "node",
+    "filename": "promiseService.js",
+    "analysis": {
+      "errorCount": 1,
+      "warningCount": 0,
+      "alerts": [
+        {
+          "source": "eslint",
+          "ruleId": "no-async-promise-executor",
+          "category": {
+            "id": "error_handling",
+            "label": "Tratamento de erros e fluxos assíncronos"
+          },
+          "environment": "node",
+          "message": "Promise executor functions should not be async.",
+          "line": 1,
+          "column": 36,
+          "endLine": 1,
+          "endColumn": 41,
+          "severity": "error"
+        }
+      ]
+    }
+  },
+  "responseText": "{\"scenario\":\"C1\",\"mode\":\"static\",\"environment\":\"node\",\"filename\":\"promiseService.js\",\"analysis\":{\"errorCount\":1,\"warningCount\":0,\"alerts\":[{\"source\":\"eslint\",\"ruleId\":\"no-async-promise-executor\",\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"environment\":\"node\",\"message\":\"Promise executor functions should not be async.\",\"line\":1,\"column\":36,\"endLine\":1,\"endColumn\":41,\"severity\":\"error\"}]}}",
+  "llm": {
+    "provider": null,
+    "model": null,
+    "temperature": null,
+    "seed": null,
+    "source": "provider/model: response.generation; temperature/seed: not_exposed_by_api"
+  }
+}

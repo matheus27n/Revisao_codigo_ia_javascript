@@ -325,6 +325,7 @@ Marcos concluídos:
 - **Marco 14.2 — Adaptação e apresentação das respostas C1/C2/C3**: concluído.
 - **Marco 15 — Refinamento de UX, consistência e robustez do frontend**: concluído.
 - **Marco 16 — Exportação dos resultados da revisão**: concluído.
+- **Marco 17 — Infraestrutura de execução e coleta experimental C1/C2/C3**: concluído.
 
 O frontend já realiza `POST /api/reviews` por meio de `src/services/reviewService.js`,
 com URL centralizada em `src/services/api.js` e configurada por `VITE_API_BASE_URL`.
@@ -373,6 +374,33 @@ Quando desatualizado, inclui `staleReason: "inputs_changed_after_analysis"`.
 Ambos os formatos usam `analyzedInput`, nunca os controles atuais; exportar a
 última análise desatualizada é permitido e fica explicitamente identificado.
 O Markdown preserva a separação C1/C2/C3 e distingue validação de avaliação qualitativa.
+
+## Infraestrutura experimental
+
+A estrutura fica em `experiments/`, documentada em `experiments/README.md`.
+O runner usa `BACKEND/scripts/runExperiment.js` (CLI) e `experimentRunner.js`,
+pelos scripts `npm run experiment` e `npm run experiment:smoke` em BACKEND.
+Ele chama a API oficial sequencialmente, sem duplicar a lógica dos cenários.
+
+Casos JSON 1.0 apontam para código externo em UTF-8, com classificação `kind`,
+ID, título, ambiente, filename e tags. Não possuem resultados esperados ou ground truth.
+Os mesmos código/filename/environment são enviados a C1/C2/C3; apenas mode muda.
+O SHA-256 dos bytes originais é registrado para rastreabilidade.
+
+Resultados 1.0 ficam em `experiments/results/<experimentId>/<caseId>/repetition-NNN/`,
+com um arquivo por cenário e `manifest.json` no diretório do lote UUID.
+`response` mantém a resposta bruta canônica integral; `responseText` preserva o corpo.
+Runtime, tempos do runner e falhas são metadados separados dos campos do backend.
+Health check antecede a criação do lote; resultados anteriores não são sobrescritos.
+Manifest completed significa coleta completa, não qualidade ou validação aprovada.
+
+Existe somente um caso técnico `non_experimental_smoke`. Seu código e resultados
+não integram o dataset, amostra ou resultados científicos do TCC, e nunca devem
+ser apresentados como dados experimentais. O padrão de repetições é 1.
+O runner não altera parâmetros LLM; provider/model são registrados quando observados,
+e temperature/seed ficam desconhecidos quando a API não os expõe.
+Política de versionamento/guarda dos resultados, dataset e repetições científicas
+permanecem decisões pendentes; o .gitignore não foi alterado para ignorar resultados.
 
 O próximo marco ainda não foi definido como concluído.
 Não avançar automaticamente para outro marco.

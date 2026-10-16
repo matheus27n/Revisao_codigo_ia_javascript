@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0",
+  "experiment": {
+    "experimentId": "da490007-fcd3-41f2-9f56-66dfefc660ad",
+    "caseId": "non-experimental-smoke",
+    "scenario": "C2",
+    "mode": "llm",
+    "repetition": 1,
+    "kind": "non_experimental_smoke",
+    "nonExperimental": true
+  },
+  "input": {
+    "code": "const executar = () => new Promise(async (resolve) => {\n  resolve(true);\n});\n\nexecutar();\n",
+    "filename": "promiseService.js",
+    "environment": "node",
+    "codeSha256": "46e01d6508daf0d5417ab36fd422373f35835189aa6414ec7ed3e6b0e149eb8b"
+  },
+  "runtime": {
+    "nodeVersion": "v24.22.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "gitCommit": "c5555ac8896cab7b9fb138314306d936f8f37dbd",
+    "gitDirty": true
+  },
+  "status": "succeeded",
+  "execution": {
+    "startedAt": "2026-10-16T04:56:05.534Z",
+    "finishedAt": "2026-10-16T04:56:16.064Z",
+    "durationMs": 10529.4897
+  },
+  "http": {
+    "status": 200
+  },
+  "response": {
+    "scenario": "C2",
+    "mode": "llm",
+    "environment": "node",
+    "filename": "promiseService.js",
+    "prompt": {
+      "version": "llm-only-1.0",
+      "metadata": {
+        "filename": "promiseService.js",
+        "environment": "node",
+        "promptVersion": "llm-only-1.0",
+        "knowledgeDocumentCount": 0,
+        "staticAlertCount": 0
+      }
+    },
+    "generation": {
+      "provider": "ollama",
+      "model": "llama3.2:3b",
+      "status": "completed",
+      "stopReason": "stop",
+      "outputText": "{\n  \"reviews\": [\n    {\n      \"reviewId\": \"review-1\",\n      \"category\": {\n        \"id\": \"error_handling\",\n        \"label\": \"Tratamento de erros e fluxos assíncronos\"\n      },\n      \"description\": \"O código não está tratando corretamente a promessa assíncrona.\",\n      \"justification\": \"A função `executar` está resolvendo a promessa com `true` sem verificar se a execução foi bem-sucedida.\",\n      \"suggestion\": \"Verificar se a execução foi bem-sucedida antes de resolver a promessa.\",\n      \"criticality\": \"high\",\n      \"line\": null,\n      \"references\": []\n    }\n  ]\n}",
+      "usage": {
+        "inputTokens": 935,
+        "outputTokens": 160,
+        "totalTokens": 1095
+      },
+      "performance": {
+        "totalDurationNs": 10471322500,
+        "loadDurationNs": 8463018000,
+        "promptEvalDurationNs": 307568000,
+        "evalDurationNs": 1634359000
+      },
+      "durationMs": 10523,
+      "generatedAt": "2026-10-16T04:56:16.0557063Z"
+    },
+    "validation": {
+      "valid": true,
+      "stage": "validated",
+      "data": {
+        "reviews": [
+          {
+            "reviewId": "review-1",
+            "category": {
+              "id": "error_handling",
+              "label": "Tratamento de erros e fluxos assíncronos"
+            },
+            "description": "O código não está tratando corretamente a promessa assíncrona.",
+            "justification": "A função `executar` está resolvendo a promessa com `true` sem verificar se a execução foi bem-sucedida.",
+            "suggestion": "Verificar se a execução foi bem-sucedida antes de resolver a promessa.",
+            "criticality": "high",
+            "line": null,
+            "references": []
+          }
+        ]
+      },
+      "errors": []
+    }
+  },
+  "responseText": "{\"scenario\":\"C2\",\"mode\":\"llm\",\"environment\":\"node\",\"filename\":\"promiseService.js\",\"prompt\":{\"version\":\"llm-only-1.0\",\"metadata\":{\"filename\":\"promiseService.js\",\"environment\":\"node\",\"promptVersion\":\"llm-only-1.0\",\"knowledgeDocumentCount\":0,\"staticAlertCount\":0}},\"generation\":{\"provider\":\"ollama\",\"model\":\"llama3.2:3b\",\"status\":\"completed\",\"stopReason\":\"stop\",\"outputText\":\"{\\n  \\\"reviews\\\": [\\n    {\\n      \\\"reviewId\\\": \\\"review-1\\\",\\n      \\\"category\\\": {\\n        \\\"id\\\": \\\"error_handling\\\",\\n        \\\"label\\\": \\\"Tratamento de erros e fluxos assíncronos\\\"\\n      },\\n      \\\"description\\\": \\\"O código não está tratando corretamente a promessa assíncrona.\\\",\\n      \\\"justification\\\": \\\"A função `executar` está resolvendo a promessa com `true` sem verificar se a execução foi bem-sucedida.\\\",\\n      \\\"suggestion\\\": \\\"Verificar se a execução foi bem-sucedida antes de resolver a promessa.\\\",\\n      \\\"criticality\\\": \\\"high\\\",\\n      \\\"line\\\": null,\\n      \\\"references\\\": []\\n    }\\n  ]\\n}\",\"usage\":{\"inputTokens\":935,\"outputTokens\":160,\"totalTokens\":1095},\"performance\":{\"totalDurationNs\":10471322500,\"loadDurationNs\":8463018000,\"promptEvalDurationNs\":307568000,\"evalDurationNs\":1634359000},\"durationMs\":10523,\"generatedAt\":\"2026-10-16T04:56:16.0557063Z\"},\"validation\":{\"valid\":true,\"stage\":\"validated\",\"data\":{\"reviews\":[{\"reviewId\":\"review-1\",\"category\":{\"id\":\"error_handling\",\"label\":\"Tratamento de erros e fluxos assíncronos\"},\"description\":\"O código não está tratando corretamente a promessa assíncrona.\",\"justification\":\"A função `executar` está resolvendo a promessa com `true` sem verificar se a execução foi bem-sucedida.\",\"suggestion\":\"Verificar se a execução foi bem-sucedida antes de resolver a promessa.\",\"criticality\":\"high\",\"line\":null,\"references\":[]}]},\"errors\":[]}}",
+  "llm": {
+    "provider": "ollama",
+    "model": "llama3.2:3b",
+    "temperature": null,
+    "seed": null,
+    "source": "provider/model: response.generation; temperature/seed: not_exposed_by_api"
+  }
+}

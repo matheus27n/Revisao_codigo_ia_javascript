@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0",
+  "id": "non-experimental-smoke",
+  "title": "Verificação técnica do runner — não integra a amostra do TCC",
+  "kind": "non_experimental_smoke",
+  "environment": "node",
+  "filename": "promiseService.js",
+  "sourceFile": "sources/non-experimental-smoke.js",
+  "tags": ["smoke", "non_experimental"]
+}
