@@ -317,26 +317,36 @@ resultados à direita
 
 ## Marco atual
 
-Estamos implementando o Marco 13:
+Marcos concluídos:
 
-**Entrada de Código e Editor Funcional**
+- **Marco 13 — Entrada de Código e Editor Funcional**: concluído.
+- **Marco 14.1 — Comunicação real entre frontend e backend**: concluído.
+- **Marco 14.2 — Adaptação e apresentação das respostas C1/C2/C3**: concluído.
 
-Ordem planejada:
+O frontend já realiza `POST /api/reviews` por meio de `src/services/reviewService.js`,
+com URL centralizada em `src/services/api.js` e configurada por `VITE_API_BASE_URL`.
 
-```text
-1. Monaco Editor
-2. estado do código
-3. filename
-4. environment
-5. mode
-6. colar código
-7. upload .js/.jsx/.mjs/.cjs
-8. preparar payload de análise
-```
+A resposta bruta permanece em `analysisResult` no `ReviewPage`.
+A camada `src/adapters/reviewAdapter.js` organiza as respostas C1/C2/C3
+em um View Model para apresentação, sem modificar os dados científicos originais.
 
-Ainda não integrar o backend nesta etapa, a menos que a tarefa peça explicitamente.
+`MetricsBar` usa dados reais e apresenta estados de espera, carregamento, conclusão,
+erro de API e falha de validação. `ResultsPanel` possui abas funcionais:
+Resumo, ESLint, Contexto e Comentários.
 
-## Payload futuro para o backend
+C1, C2 e C3 continuam metodologicamente separados:
+C1 apresenta apenas análise estática; C2 apresenta comentários do LLM sem ESLint,
+contextos ou referências; C3 apresenta alertas, contextos recuperados e comentários,
+com referências exibidas somente quando a validação do backend é válida.
+
+Contextos repetidos são agrupados visualmente por `documentId`, preservando suas
+associações com os alertas. A métrica usa `retrieval.totalContexts`, quando disponível.
+Validação não comprova a qualidade técnica dos comentários.
+
+O próximo marco ainda não foi definido como concluído.
+Não avançar automaticamente para outro marco.
+
+## Payload para o backend
 
 ```json
 {

@@ -5,6 +5,7 @@ import MetricsBar from "../components/MetricsBar";
 import CodePanel from "../components/CodePanel";
 import ResultsPanel from "../components/ResultsPanel";
 import { submitReview } from "../services/reviewService";
+import { adaptReviewResult } from "../adapters/reviewAdapter";
 
 import "../styles/review-page.css";
 
@@ -17,6 +18,7 @@ function ReviewPage() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState("");
+  const review = adaptReviewResult(analysisResult);
 
   async function handlePaste() {
     try {
@@ -85,7 +87,7 @@ function ReviewPage() {
 
         {inputError && <p className="input-error" role="alert">{inputError}</p>}
 
-        <MetricsBar />
+        <MetricsBar metrics={review?.metrics} isAnalyzing={isAnalyzing} error={analysisError} />
 
         <div className="review-workspace">
           <CodePanel
@@ -95,7 +97,7 @@ function ReviewPage() {
             environment={environment}
           />
 
-          <ResultsPanel result={analysisResult} isAnalyzing={isAnalyzing} error={analysisError} />
+          <ResultsPanel result={review} isAnalyzing={isAnalyzing} error={analysisError} />
         </div>
       </main>
     </div>
