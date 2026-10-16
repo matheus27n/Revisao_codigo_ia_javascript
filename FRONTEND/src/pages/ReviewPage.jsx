@@ -4,6 +4,7 @@ import ReviewToolbar from "../components/ReviewToolbar";
 import MetricsBar from "../components/MetricsBar";
 import CodePanel from "../components/CodePanel";
 import ResultsPanel from "../components/ResultsPanel";
+import { submitReview } from "../services/reviewService";
 
 import "../styles/review-page.css";
 
@@ -13,6 +14,9 @@ function ReviewPage() {
   const [environment, setEnvironment] = useState("node");
   const [mode, setMode] = useState("hybrid");
   const [inputError, setInputError] = useState("");
+  const [analysisResult, setAnalysisResult] = useState(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisError, setAnalysisError] = useState("");
 
   async function handlePaste() {
     try {
@@ -42,8 +46,25 @@ function ReviewPage() {
     }
   }
 
-  function handleAnalyze() {
-    console.log({ code, filename, environment, mode });
+  async function handleAnalyze() {
+    if (isAnalyzing) return;
+    setAnalysisError("");
+    setAnalysisResult(null);
+
+    if (!code.trim()) {
+      setAnalysisError("Insira um código antes de executar a análise.");
+      return;
+    }
+
+    setIsAnalyzing(true);
+    try {
+      const result = await submitReview({ code, filename, environment, mode });
+      setAnalysisResult(result);
+    } catch (error) {
+      setAnalysisError(error.message || "Não foi possível executar a análise. Tente novamente.");
+    } finally {
+      setIsAnalyzing(false);
+    }
   }
 
   return (
@@ -59,6 +80,7 @@ function ReviewPage() {
           onPaste={handlePaste}
           onUpload={handleUpload}
           onAnalyze={handleAnalyze}
+          isAnalyzing={isAnalyzing}
         />
 
         {inputError && <p className="input-error" role="alert">{inputError}</p>}
@@ -73,7 +95,7 @@ function ReviewPage() {
             environment={environment}
           />
 
-          <ResultsPanel />
+          <ResultsPanel result={analysisResult} isAnalyzing={isAnalyzing} error={analysisError} />
         </div>
       </main>
     </div>

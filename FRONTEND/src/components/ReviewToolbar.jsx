@@ -5,7 +5,7 @@ import {
     Sparkles,
   } from "lucide-react";
   
-  function ReviewToolbar({ environment, onEnvironmentChange, mode, onModeChange, onPaste, onUpload, onAnalyze }) {
+  function ReviewToolbar({ environment, onEnvironmentChange, mode, onModeChange, onPaste, onUpload, onAnalyze, isAnalyzing }) {
     const fileInputRef = useRef(null);
 
     return (
@@ -78,9 +78,10 @@ import {
             className="primary-button"
             type="button"
             onClick={onAnalyze}
+            disabled={isAnalyzing}
           >
             <Sparkles size={18} />
-            Analisar Código
+            {isAnalyzing ? "Analisando..." : "Analisar Código"}
           </button>
         </div>
       </section>

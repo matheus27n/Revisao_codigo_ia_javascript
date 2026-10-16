@@ -5,7 +5,7 @@ import {
     LayoutDashboard,
   } from "lucide-react";
   
-  function ResultsPanel() {
+  function ResultsPanel({ result, isAnalyzing, error }) {
     return (
       <section className="results-panel">
         <div className="results-tabs">
@@ -42,6 +42,19 @@ import {
           </button>
         </div>
   
+        {isAnalyzing ? (
+          <div className="empty-results" role="status">Executando análise...</div>
+        ) : error ? (
+          <div className="empty-results" role="alert"><p className="analysis-error">{error}</p></div>
+        ) : result !== null ? (
+          <div className="analysis-result">
+            <h2 role="status">Análise concluída</h2>
+            <p>Cenário: {result.scenario}</p>
+            <p>Modo: {result.mode}</p>
+            {/* Visualização temporária para validar a integração do Marco 14.1. */}
+            <pre className="analysis-json">{JSON.stringify(result, null, 2)}</pre>
+          </div>
+        ) : (
         <div className="empty-results">
           <div className="empty-icon">
             <Bot size={30} />
@@ -61,6 +74,7 @@ import {
             para visualizar os resultados.
           </p>
         </div>
+        )}
       </section>
     );
   }
