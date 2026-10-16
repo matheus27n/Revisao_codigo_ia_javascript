@@ -315,13 +315,15 @@ editor à esquerda
 resultados à direita
 ```
 
-## Marco atual
+## Estado atual do desenvolvimento
 
 Marcos concluídos:
 
+- **Marco 12 — Fundação e layout do frontend**: concluído.
 - **Marco 13 — Entrada de Código e Editor Funcional**: concluído.
 - **Marco 14.1 — Comunicação real entre frontend e backend**: concluído.
 - **Marco 14.2 — Adaptação e apresentação das respostas C1/C2/C3**: concluído.
+- **Marco 15 — Refinamento de UX, consistência e robustez do frontend**: concluído.
 
 O frontend já realiza `POST /api/reviews` por meio de `src/services/reviewService.js`,
 com URL centralizada em `src/services/api.js` e configurada por `VITE_API_BASE_URL`.
@@ -342,6 +344,16 @@ com referências exibidas somente quando a validação do backend é válida.
 Contextos repetidos são agrupados visualmente por `documentId`, preservando suas
 associações com os alertas. A métrica usa `retrieval.totalContexts`, quando disponível.
 Validação não comprova a qualidade técnica dos comentários.
+
+O `ReviewPage` compara os campos atuais `code`, `filename`, `environment` e `mode`
+com a cópia enviada na análise que produziu o resultado. Entradas diferentes marcam
+o resultado e as métricas como desatualizados, preservando o cenário da resposta.
+Durante uma requisição, os controles de entrada ficam bloqueados, o editor fica
+somente leitura e uma trava local impede envios simultâneos.
+
+Erros de comunicação, HTTP e leitura da resposta são diferenciados no serviço do
+frontend, preservando status HTTP e mensagem da API quando disponíveis.
+Esses metadados de apresentação não alteram o contrato do backend.
 
 O próximo marco ainda não foi definido como concluído.
 Não avançar automaticamente para outro marco.

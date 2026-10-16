@@ -1,6 +1,6 @@
-export default function ReviewSummary({ result }) {
+export default function ReviewSummary({ result, isResultStale }) {
   return <div className="review-summary">
-    <h2>{result.metrics.status}</h2>
+    <h2>{isResultStale ? "Resultado da última análise · desatualizado" : result.metrics.status}</h2>
     <dl className="summary-fields">
       <div><dt>Cenário</dt><dd>{result.scenario}</dd></div>
       <div><dt>Modo</dt><dd>{result.modeLabel}</dd></div>

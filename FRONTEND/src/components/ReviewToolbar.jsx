@@ -15,6 +15,7 @@ import {
             className="secondary-button"
             type="button"
             onClick={onPaste}
+            disabled={isAnalyzing}
           >
             <Clipboard size={17} />
             Colar código
@@ -24,6 +25,7 @@ import {
             className="secondary-button"
             type="button"
             onClick={() => fileInputRef.current?.click()}
+            disabled={isAnalyzing}
           >
             <CloudUpload size={17} />
             Upload de arquivo
@@ -32,6 +34,7 @@ import {
             ref={fileInputRef}
             type="file"
             accept=".js,.jsx,.mjs,.cjs"
+            disabled={isAnalyzing}
             hidden
             onChange={(event) => {
               const file = event.target.files?.[0];
@@ -45,7 +48,7 @@ import {
           <label className="field">
             <span>Ambiente</span>
   
-            <select value={environment} onChange={(event) => onEnvironmentChange(event.target.value)}>
+            <select value={environment} disabled={isAnalyzing} onChange={(event) => onEnvironmentChange(event.target.value)}>
               <option value="node">
                 Node.js
               </option>
@@ -59,7 +62,7 @@ import {
           <label className="field">
             <span>Modo</span>
   
-            <select value={mode} onChange={(event) => onModeChange(event.target.value)}>
+            <select value={mode} disabled={isAnalyzing} onChange={(event) => onModeChange(event.target.value)}>
               <option value="static">
                 C1 — Estático
               </option>

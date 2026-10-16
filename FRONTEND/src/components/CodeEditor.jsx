@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 
-function CodeEditor({ code, onCodeChange }) {
+function CodeEditor({ code, onCodeChange, readOnly }) {
   return (
     <div className="code-editor">
       <Editor
@@ -11,6 +11,7 @@ function CodeEditor({ code, onCodeChange }) {
         onChange={(value) => onCodeChange(value ?? "")}
         loading="Carregando editor…"
         options={{
+          readOnly,
           automaticLayout: true,
           minimap: { enabled: false },
           fontSize: 14,

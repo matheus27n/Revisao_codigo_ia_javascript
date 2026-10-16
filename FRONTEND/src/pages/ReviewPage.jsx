@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "../components/Header";
 import ReviewToolbar from "../components/ReviewToolbar";
 import MetricsBar from "../components/MetricsBar";
 import CodePanel from "../components/CodePanel";
 import ResultsPanel from "../components/ResultsPanel";
-import { submitReview } from "../services/reviewService";
+import { ReviewRequestError, submitReview } from "../services/reviewService";
 import { adaptReviewResult } from "../adapters/reviewAdapter";
 
 import "../styles/review-page.css";
@@ -17,8 +17,14 @@ function ReviewPage() {
   const [inputError, setInputError] = useState("");
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisError, setAnalysisError] = useState("");
+  const [analysisError, setAnalysisError] = useState(null);
+  const [analyzedInput, setAnalyzedInput] = useState(null);
+  const requestInFlight = useRef(false);
   const review = adaptReviewResult(analysisResult);
+  const isResultStale = Boolean(analysisResult && analyzedInput && (
+    code !== analyzedInput.code || filename !== analyzedInput.filename ||
+    environment !== analyzedInput.environment || mode !== analyzedInput.mode
+  ));
 
   async function handlePaste() {
     try {
@@ -49,22 +55,30 @@ function ReviewPage() {
   }
 
   async function handleAnalyze() {
-    if (isAnalyzing) return;
-    setAnalysisError("");
+    if (requestInFlight.current) return;
+    setAnalysisError(null);
     setAnalysisResult(null);
+    setAnalyzedInput(null);
+    setInputError("");
 
     if (!code.trim()) {
-      setAnalysisError("Insira um código antes de executar a análise.");
+      setAnalysisError({ type: "input", message: "Insira um código antes de executar a análise." });
       return;
     }
 
+    const submittedInput = { code, filename, environment, mode };
+    requestInFlight.current = true;
     setIsAnalyzing(true);
     try {
-      const result = await submitReview({ code, filename, environment, mode });
+      const result = await submitReview(submittedInput);
       setAnalysisResult(result);
+      setAnalyzedInput(submittedInput);
     } catch (error) {
-      setAnalysisError(error.message || "Não foi possível executar a análise. Tente novamente.");
+      setAnalysisError(error instanceof ReviewRequestError
+        ? { type: error.type, message: error.message, status: error.status, apiMessage: error.apiMessage }
+        : { type: "unexpected", message: "Ocorreu um erro inesperado ao analisar o código. Tente novamente." });
     } finally {
+      requestInFlight.current = false;
       setIsAnalyzing(false);
     }
   }
@@ -87,7 +101,12 @@ function ReviewPage() {
 
         {inputError && <p className="input-error" role="alert">{inputError}</p>}
 
-        <MetricsBar metrics={review?.metrics} isAnalyzing={isAnalyzing} error={analysisError} />
+        {isResultStale && <div className="stale-notice" role="status">
+          <strong>Resultado desatualizado — última análise: {review.scenario}</strong>
+          <p>Os dados de entrada foram alterados após a última análise. Execute uma nova análise para atualizar os resultados.</p>
+        </div>}
+
+        <MetricsBar metrics={review?.metrics} isAnalyzing={isAnalyzing} error={analysisError} isResultStale={isResultStale} />
 
         <div className="review-workspace">
           <CodePanel
@@ -95,9 +114,10 @@ function ReviewPage() {
             onCodeChange={setCode}
             filename={filename}
             environment={environment}
+            readOnly={isAnalyzing}
           />
 
-          <ResultsPanel result={review} isAnalyzing={isAnalyzing} error={analysisError} />
+          <ResultsPanel result={review} isAnalyzing={isAnalyzing} analyzingMode={mode} error={analysisError} isResultStale={isResultStale} />
         </div>
       </main>
     </div>

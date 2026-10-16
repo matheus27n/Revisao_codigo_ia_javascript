@@ -1,5 +1,15 @@
 import { API_BASE_URL } from "./api";
 
+export class ReviewRequestError extends Error {
+  constructor(message, { type, status = null, apiMessage = null, cause } = {}) {
+    super(message, { cause });
+    this.name = "ReviewRequestError";
+    this.type = type;
+    this.status = status;
+    this.apiMessage = apiMessage;
+  }
+}
+
 export async function submitReview({ code, filename, environment, mode, maxContexts = 3 }) {
   const payload = { code, filename, environment, mode };
   if (mode === "hybrid") payload.maxContexts = maxContexts;
@@ -11,22 +21,24 @@ export async function submitReview({ code, filename, environment, mode, maxConte
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-  } catch {
-    throw new Error("Não foi possível conectar ao backend. Verifique se ele está em execução e tente novamente.");
+  } catch (cause) {
+    throw new ReviewRequestError("Não foi possível conectar ao backend. Verifique se ele está em execução e tente novamente.", { type: "network", cause });
   }
 
   let result;
   try {
     result = await response.json();
-  } catch {
-    throw new Error(`O backend retornou uma resposta que não é JSON válido (HTTP ${response.status}).`);
+  } catch (cause) {
+    throw new ReviewRequestError("Não foi possível ler a resposta do backend. Tente novamente.", {
+      type: response.ok ? "response" : "http", status: response.status, cause,
+    });
   }
 
   if (!response.ok) {
     const message = typeof result?.message === "string"
       ? result.message
       : "Não foi possível executar a análise.";
-    throw new Error(`${message} (HTTP ${response.status})`);
+    throw new ReviewRequestError(message, { type: "http", status: response.status, apiMessage: result?.message ?? null });
   }
 
   return result;
