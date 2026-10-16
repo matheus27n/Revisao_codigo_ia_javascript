@@ -272,6 +272,13 @@
   .stale-metrics .metric-card { border-color: var(--warning); }
   .result-origin { margin: 0; padding: 10px 14px; color: var(--text-secondary); font-size: 12px; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
   .result-origin-stale { color: var(--warning); }
+  .export-actions { flex-shrink: 0; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .export-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .export-buttons > span { color: var(--text-secondary); font-size: 12px; }
+  .export-buttons .secondary-button { min-height: 32px; padding: 0 10px; font-size: 12px; flex: 0 1 auto; }
+  .export-feedback, .export-error { margin: 8px 0 0; font-size: 12px; }
+  .export-feedback { color: var(--success); }
+  .export-error { color: var(--danger); }
   .analysis-loading { display: grid; justify-items: center; gap: 12px; }
   .loading-spinner { color: var(--primary); animation: loading-spin 1s linear infinite; }
   .analysis-loading h2 { margin: 0; }

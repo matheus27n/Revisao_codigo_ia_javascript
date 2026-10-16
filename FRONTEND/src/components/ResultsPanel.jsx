@@ -37,7 +37,7 @@ const errorTitles = {
   unexpected: "Erro inesperado",
 };
 
-export default function ResultsPanel({ result, isAnalyzing, analyzingMode, error, isResultStale }) {
+export default function ResultsPanel({ result, isAnalyzing, analyzingMode, error, isResultStale, exportActions }) {
   const [activeTab, setActiveTab] = useState("summary");
 
   function handleTabKeyDown(event, index) {
@@ -54,6 +54,7 @@ export default function ResultsPanel({ result, isAnalyzing, analyzingMode, error
 
   return (
     <section className="results-panel" aria-label="Resultados da análise" aria-busy={isAnalyzing}>
+      {exportActions}
       <div className="results-tabs" role="tablist" aria-label="Visualização dos resultados">
         {tabs.map(({ id, label, icon: Icon }, index) => (
           <button key={id} id={`tab-${id}`} role="tab" aria-selected={activeTab === id}

@@ -4,6 +4,7 @@ import ReviewToolbar from "../components/ReviewToolbar";
 import MetricsBar from "../components/MetricsBar";
 import CodePanel from "../components/CodePanel";
 import ResultsPanel from "../components/ResultsPanel";
+import ExportActions from "../components/ExportActions";
 import { ReviewRequestError, submitReview } from "../services/reviewService";
 import { adaptReviewResult } from "../adapters/reviewAdapter";
 
@@ -117,7 +118,8 @@ function ReviewPage() {
             readOnly={isAnalyzing}
           />
 
-          <ResultsPanel result={review} isAnalyzing={isAnalyzing} analyzingMode={mode} error={analysisError} isResultStale={isResultStale} />
+          <ResultsPanel result={review} isAnalyzing={isAnalyzing} analyzingMode={mode} error={analysisError} isResultStale={isResultStale}
+            exportActions={<ExportActions key={`${Boolean(analysisResult)}-${isResultStale}`} result={analysisResult} analyzedInput={analyzedInput} isAnalyzing={isAnalyzing} isResultStale={isResultStale} />} />
         </div>
       </main>
     </div>

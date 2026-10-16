@@ -324,6 +324,7 @@ Marcos concluídos:
 - **Marco 14.1 — Comunicação real entre frontend e backend**: concluído.
 - **Marco 14.2 — Adaptação e apresentação das respostas C1/C2/C3**: concluído.
 - **Marco 15 — Refinamento de UX, consistência e robustez do frontend**: concluído.
+- **Marco 16 — Exportação dos resultados da revisão**: concluído.
 
 O frontend já realiza `POST /api/reviews` por meio de `src/services/reviewService.js`,
 com URL centralizada em `src/services/api.js` e configurada por `VITE_API_BASE_URL`.
@@ -354,6 +355,24 @@ somente leitura e uma trava local impede envios simultâneos.
 Erros de comunicação, HTTP e leitura da resposta são diferenciados no serviço do
 frontend, preservando status HTTP e mensagem da API quando disponíveis.
 Esses metadados de apresentação não alteram o contrato do backend.
+
+O Marco 16 foi validado manualmente pelo usuário no navegador real, fora do
+navegador automatizado do Codex: JSON e Markdown de C1, C2, C3, C3 sem alertas
+e resultado desatualizado. No caso stale, o usuário confirmou `stale = true`,
+`input` correspondente ao snapshot analisado, código atual sem substituir o
+snapshot e `scenario` preservado da resposta original.
+A limitação anterior era específica do navegador automatizado e não representava
+defeito demonstrado na implementação.
+
+`src/services/exportService.js` gera JSON e Markdown e inicia downloads com APIs
+nativas. `ExportActions` apresenta ações secundárias no painel de resultados,
+com feedback e erros independentes dos erros da análise.
+O JSON usa envelope `exportVersion: "1.0"`, `exportedAt`, `application`, `stale`,
+`input` (snapshot analisado) e `result` (resposta bruta canônica, sem alterações).
+Quando desatualizado, inclui `staleReason: "inputs_changed_after_analysis"`.
+Ambos os formatos usam `analyzedInput`, nunca os controles atuais; exportar a
+última análise desatualizada é permitido e fica explicitamente identificado.
+O Markdown preserva a separação C1/C2/C3 e distingue validação de avaliação qualitativa.
 
 O próximo marco ainda não foi definido como concluído.
 Não avançar automaticamente para outro marco.
